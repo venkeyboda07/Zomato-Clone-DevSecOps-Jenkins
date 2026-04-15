@@ -386,7 +386,7 @@ and click on install without restart
 
         stage("TRIVY"){
             steps{
-                sh "trivy image  prachiii123/zomato:1.0 > trivy .txt"
+                sh "trivy image  venkeyboda/zomato:1.0> trivy .txt"
             }
         }
 ```
