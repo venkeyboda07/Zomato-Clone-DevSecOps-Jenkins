@@ -1,23 +1,32 @@
 pipeline{
     agent any
+
+    triggers {
+        cron('H/30 * * * *')  // Runs the pipeline every 30 minutes
+    }
+    
     tools{
-        jdk 'JDK 17'
-        nodejs 'node.js 16'
+        jdk 'JDK 17'  // Ensure this matches the JDK name in Jenkins Global Tool Configuration
+        nodejs 'Node.js 16'  // Ensure Node.js is installed in Jenkins
     }
     environment {
+        NVD_API_KEY = credentials('NVD_API_KEY')  // Fetch API key securely
         SCANNER_HOME=tool 'sonar-scanner'
     }
+
     stages {
         stage('clean workspace'){
             steps{
                 cleanWs()
             }
         }
+
         stage('Checkout from Git'){
             steps{
                 git branch: 'main', url: 'https://github.com/venkeyboda07/Zomato-Clone-DevSecOps-Jenkins.git'
             }
         }
+        
         stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-server') {
