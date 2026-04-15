@@ -8,6 +8,8 @@ pipeline{
     tools{
         jdk 'JDK 17'  // Ensure this matches the JDK name in Jenkins Global Tool Configuration
         nodejs 'Node.js 16'  // Ensure Node.js is installed in Jenkins
+        IMAGE_NAME = 'venkeyboda/zomato'
+        IMAGE_TAG = '1.0'
     }
     environment {
         NVD_API_KEY = credentials('NVD_API_KEY')  // Fetch API key securely
@@ -74,8 +76,8 @@ stage("Docker Build & Push"){
                script{
                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
                       sh "docker build -t zomato ."
-                      sh "docker tag zomato venkeyboda/zomato:1.0"
-                      sh "docker push venkeyboda/zomato:1.0"
+                      sh "docker tag zomato $IMAGE_NAME:$IMAGE_TAG"
+                      sh "docker push $IMAGE_NAME:$IMAGE_TAG"
                    }
                }
            }
