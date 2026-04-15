@@ -83,7 +83,7 @@ stage("Docker Build & Push"){
 
        stage("TRIVY"){
            steps{
-               sh "trivy image  venkeyboda/zomato:1.0 > trivy .txt"
+               sh "trivy image venkeyboda/zomato:1.0 > trivy .txt"
            }
        }
 
@@ -91,5 +91,6 @@ stage("Docker Build & Push"){
             steps {
                 sh "docker run -d --name zomato -p 3000:3000 venkeyboda/zomato:1.0"
             }
+        }    
     }
 }
