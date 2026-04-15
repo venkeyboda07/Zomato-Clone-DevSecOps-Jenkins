@@ -48,7 +48,7 @@ pipeline{
                 }
             }
         }
-        
+
         stage('Install Dependencies') {
             steps {
                 sh "npm install"
@@ -68,10 +68,6 @@ pipeline{
                 sh "trivy fs . > trivyfs.txt"
             }
         }
-        
-
-
-
 
 stage("Docker Build & Push"){
            steps{
@@ -84,10 +80,16 @@ stage("Docker Build & Push"){
                }
            }
        }
+
        stage("TRIVY"){
            steps{
                sh "trivy image  venkeyboda/zomato:1.0 > trivy .txt"
            }
        }
+
+        stage('Deploy to Container') {
+            steps {
+                sh "docker run -d --name zomato -p 3000:3000 venkeyboda/zomato:1.0"
+            }
     }
 }
